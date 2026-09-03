@@ -12,6 +12,7 @@ import SubmitSolution from "./pages/SubmitSolution";
 import SolutionDetails from "./pages/SolutionDetails";
 import Impact from "./pages/Impact";
 import About from "./pages/About";
+import Signup from "./pages/Signup";  
 
 function App() {
   const path = window.location.pathname.replace(/\/$/, "");
@@ -55,6 +56,10 @@ function App() {
   if (path === "/about") {
     return <About />;
   }
+
+  if (path === "/signup") {
+    return <Signup />;
+  } 
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900">

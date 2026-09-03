@@ -60,9 +60,12 @@ function Login() {
 
           <p className="mt-6 text-center text-sm text-white/60">
             Don't have an account?{" "}
-            <span className="cursor-pointer font-semibold text-emerald-400 hover:text-emerald-300">
+            <a
+              href="/signup"
+              className="font-semibold text-emerald-400 hover:text-emerald-300"
+            >
               Sign Up
-            </span>
+            </a>
           </p>
 
         </div>

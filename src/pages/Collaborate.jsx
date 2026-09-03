@@ -2,19 +2,18 @@ import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 
 function Collaborate() {
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    organization: "",
-    type: "Student / Innovator",
-    message: "",
+  const [formData, setFormData] = useState({
+    institute_name: "",
+    problem_number: "",
+    expectation_cost: "",
+    duration_to_solve_problem: "",
   });
 
   const [submitted, setSubmitted] = useState(false);
 
   const handleChange = (e) => {
-    setForm({
-      ...form,
+    setFormData({
+      ...formData,
       [e.target.name]: e.target.value,
     });
   };
@@ -22,268 +21,155 @@ function Collaborate() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (
-      !form.name ||
-      !form.email ||
-      !form.organization ||
-      !form.message
-    ) {
-      alert("Please fill all the fields.");
-      return;
-    }
+    // Temporary frontend storage.
+    // Backend team can replace this with an API later.
+    const existingCollaborations =
+      JSON.parse(localStorage.getItem("collaborations")) || [];
 
-    // Get existing collaboration requests
-    const existingRequests =
-      JSON.parse(localStorage.getItem("collaborationRequests")) || [];
-
-    // Create new request
-    const newRequest = {
+    const newCollaboration = {
       id: Date.now(),
-      name: form.name,
-      email: form.email,
-      organization: form.organization,
-      type: form.type,
-      message: form.message,
-      date: new Date().toLocaleDateString(),
+      ...formData,
     };
 
-    // Save request
     localStorage.setItem(
-      "collaborationRequests",
+      "collaborations",
       JSON.stringify([
-        ...existingRequests,
-        newRequest,
+        ...existingCollaborations,
+        newCollaboration,
       ])
     );
 
     setSubmitted(true);
 
-    // Clear form
-    setForm({
-      name: "",
-      email: "",
-      organization: "",
-      type: "Student / Innovator",
-      message: "",
+    setFormData({
+      institute_name: "",
+      problem_number: "",
+      expectation_cost: "",
+      duration_to_solve_problem: "",
     });
   };
 
   return (
     <div className="min-h-screen bg-[#020b2d] text-white">
-
       <Navbar />
 
-      {/* HERO */}
-      <section className="relative overflow-hidden px-6 py-20">
+      <section className="px-5 py-16">
+        <div className="mx-auto max-w-4xl">
 
-        <div className="absolute left-1/2 top-0 h-[500px] w-[700px] -translate-x-1/2 rounded-full bg-emerald-500/10 blur-3xl" />
-
-        <div className="relative z-10 mx-auto max-w-4xl text-center">
-
-          <div className="mb-6 inline-flex rounded-full border border-emerald-400/40 bg-emerald-400/10 px-5 py-2 text-sm font-semibold text-emerald-300">
-            🤝 Collaboration Hub
-          </div>
-
-          <h1 className="text-5xl font-black leading-tight md:text-6xl">
-            Collaborate.
-            <br />
-
-            <span className="text-emerald-400">
-              Create Impact.
-            </span>
-          </h1>
-
-          <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-blue-100/70">
-            Connect with citizens, students, universities, startups,
-            researchers and industries to build meaningful solutions
-            for Jharkhand.
-          </p>
-
-        </div>
-      </section>
-
-      {/* FORM */}
-      <section className="bg-white px-6 py-20 text-slate-900">
-
-        <div className="mx-auto max-w-3xl">
-
+          {/* HEADER */}
           <div className="mb-10 text-center">
-
-            <p className="font-semibold uppercase tracking-widest text-emerald-600">
-              Join the Network
+            <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-emerald-400">
+              Collaboration
             </p>
 
-            <h2 className="mt-3 text-4xl font-bold">
-              Start a Collaboration
-            </h2>
+            <h1 className="text-4xl font-black md:text-5xl">
+              Collaborate With Us
+            </h1>
 
-            <p className="mt-4 text-slate-500">
-              Tell us about yourself and how you would like to
-              contribute.
+            <p className="mx-auto mt-4 max-w-2xl text-white/60">
+              Share your institute's requirements and collaborate
+              on solving a community problem.
             </p>
-
           </div>
-
-          {/* SUCCESS MESSAGE */}
-          {submitted && (
-            <div className="mb-6 rounded-2xl border border-emerald-200 bg-emerald-50 px-6 py-5 text-center">
-
-              <div className="text-3xl">
-                ✅
-              </div>
-
-              <h3 className="mt-2 font-bold text-emerald-700">
-                Collaboration request submitted!
-              </h3>
-
-              <p className="mt-1 text-sm text-emerald-600">
-                Thank you for joining the innovation network.
-              </p>
-
-            </div>
-          )}
 
           {/* FORM CARD */}
-          <form
-            onSubmit={handleSubmit}
-            className="rounded-3xl border border-slate-200 bg-white p-6 shadow-xl md:p-10"
-          >
+          <div className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl backdrop-blur md:p-10">
 
-            {/* NAME */}
-            <div className="mb-6">
+            <h2 className="mb-7 text-2xl font-bold">
+              Institute Collaboration Details
+            </h2>
 
-              <label className="mb-2 block font-semibold">
-                Your Name
-              </label>
+            <form onSubmit={handleSubmit} className="space-y-6">
 
-              <input
-                type="text"
-                name="name"
-                value={form.name}
-                onChange={handleChange}
-                placeholder="Enter your full name"
-                className="w-full rounded-xl border border-slate-200 bg-slate-50 px-5 py-4 outline-none transition focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100"
-              />
+              {/* INSTITUTE NAME */}
+              <div>
+                <label className="mb-2 block text-sm font-semibold text-white/80">
+                  Institute Name
+                </label>
 
-            </div>
+                <input
+                  type="text"
+                  name="institute_name"
+                  value={formData.institute_name}
+                  onChange={handleChange}
+                  placeholder="Enter institute name"
+                  required
+                  className="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3.5 text-white outline-none transition placeholder:text-white/30 focus:border-emerald-400"
+                />
+              </div>
 
-            {/* EMAIL */}
-            <div className="mb-6">
+              {/* PROBLEM NUMBER */}
+              <div>
+                <label className="mb-2 block text-sm font-semibold text-white/80">
+                  Problem Number
+                </label>
 
-              <label className="mb-2 block font-semibold">
-                Email
-              </label>
+                <input
+                  type="text"
+                  name="problem_number"
+                  value={formData.problem_number}
+                  onChange={handleChange}
+                  placeholder="Enter problem number"
+                  required
+                  className="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3.5 text-white outline-none transition placeholder:text-white/30 focus:border-emerald-400"
+                />
+              </div>
 
-              <input
-                type="email"
-                name="email"
-                value={form.email}
-                onChange={handleChange}
-                placeholder="Enter your email"
-                className="w-full rounded-xl border border-slate-200 bg-slate-50 px-5 py-4 outline-none transition focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100"
-              />
+              {/* EXPECTED COST */}
+              <div>
+                <label className="mb-2 block text-sm font-semibold text-white/80">
+                  Expected Cost
+                </label>
 
-            </div>
+                <input
+                  type="number"
+                  name="expectation_cost"
+                  value={formData.expectation_cost}
+                  onChange={handleChange}
+                  placeholder="Enter expected cost"
+                  min="0"
+                  required
+                  className="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3.5 text-white outline-none transition placeholder:text-white/30 focus:border-emerald-400"
+                />
+              </div>
 
-            {/* ORGANIZATION */}
-            <div className="mb-6">
+              {/* DURATION */}
+              <div>
+                <label className="mb-2 block text-sm font-semibold text-white/80">
+                  Duration to Solve Problem
+                </label>
 
-              <label className="mb-2 block font-semibold">
-                Organization / College
-              </label>
+                <input
+                  type="text"
+                  name="duration_to_solve_problem"
+                  value={formData.duration_to_solve_problem}
+                  onChange={handleChange}
+                  placeholder="Example: 3 months"
+                  required
+                  className="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3.5 text-white outline-none transition placeholder:text-white/30 focus:border-emerald-400"
+                />
+              </div>
 
-              <input
-                type="text"
-                name="organization"
-                value={form.organization}
-                onChange={handleChange}
-                placeholder="Enter college, company or organization"
-                className="w-full rounded-xl border border-slate-200 bg-slate-50 px-5 py-4 outline-none transition focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100"
-              />
-
-            </div>
-
-            {/* COLLABORATION TYPE */}
-            <div className="mb-6">
-
-              <label className="mb-2 block font-semibold">
-                I am a
-              </label>
-
-              <select
-                name="type"
-                value={form.type}
-                onChange={handleChange}
-                className="w-full rounded-xl border border-slate-200 bg-slate-50 px-5 py-4 outline-none transition focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100"
+              {/* SUBMIT */}
+              <button
+                type="submit"
+                className="w-full rounded-xl bg-emerald-500 px-6 py-4 font-bold text-white shadow-lg shadow-emerald-500/20 transition hover:-translate-y-0.5 hover:bg-emerald-400"
               >
-                <option>Student / Innovator</option>
-                <option>Citizen</option>
-                <option>University / Researcher</option>
-                <option>Startup</option>
-                <option>Industry</option>
-                <option>Government Organization</option>
-                <option>NGO</option>
-              </select>
+                Submit Collaboration Request →
+              </button>
 
-            </div>
+            </form>
 
-            {/* MESSAGE */}
-            <div className="mb-8">
-
-              <label className="mb-2 block font-semibold">
-                How would you like to collaborate?
-              </label>
-
-              <textarea
-                name="message"
-                value={form.message}
-                onChange={handleChange}
-                rows="6"
-                placeholder="Describe your skills, idea or how you would like to contribute..."
-                className="w-full resize-none rounded-xl border border-slate-200 bg-slate-50 px-5 py-4 outline-none transition focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100"
-              />
-
-            </div>
-
-            {/* SUBMIT */}
-            <button
-              type="submit"
-              className="w-full rounded-xl bg-emerald-500 px-6 py-4 font-bold text-white shadow-lg transition hover:-translate-y-1 hover:bg-emerald-400"
-            >
-              🤝 Send Collaboration Request
-            </button>
-
-          </form>
-
-        </div>
-
-      </section>
-
-      {/* FOOTER */}
-      <footer className="bg-[#020b2d] px-6 py-10">
-
-        <div className="mx-auto flex max-w-7xl flex-col justify-between gap-5 md:flex-row">
-
-          <div>
-
-            <h3 className="font-bold">
-              🌱 JHARKHAND INNOVATION PLATFORM
-            </h3>
-
-            <p className="mt-2 text-sm text-blue-200">
-              Building a better Jharkhand through innovation.
-            </p>
+            {/* SUCCESS MESSAGE */}
+            {submitted && (
+              <div className="mt-6 rounded-xl border border-emerald-400/30 bg-emerald-400/10 p-4 text-center text-emerald-300">
+                ✓ Collaboration request submitted successfully!
+              </div>
+            )}
 
           </div>
-
-          <p className="text-sm text-blue-300">
-            © 2026 Jharkhand Innovation Platform
-          </p>
-
         </div>
-
-      </footer>
-
+      </section>
     </div>
   );
 }
