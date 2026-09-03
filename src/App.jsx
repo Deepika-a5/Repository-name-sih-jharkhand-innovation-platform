@@ -1,5 +1,5 @@
 import Collaborate from "./pages/Collaborate";
-import ChallengesPage from "./pages/challenges";
+import ChallengesPage from "./pages/Challenges";
 import Solutions from "./pages/Solutions";
 import Navbar from "./components/Navbar";
 import Login from "./pages/Login";
