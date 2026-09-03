@@ -1,107 +1,69 @@
+import Collaborate from "./pages/Collaborate";
+import ChallengesPage from "./pages/challenges";
+import Solutions from "./pages/Solutions";
+import Navbar from "./components/Navbar";
+import Login from "./pages/Login";
+import React from "react";
+import Home from "./pages/Home";
+import SubmitProblem from "./pages/SubmitProblem";
+import ChallengeDetails from "./pages/ChallengeDetails";
+import SubmitSolution from "./pages/SubmitSolution";
+import SolutionDetails from "./pages/SolutionDetails";
+import Impact from "./pages/Impact";
+import About from "./pages/About";
+
 function App() {
+  const path = window.location.pathname.replace(/\/$/, "");
+
+  if (path === "/challenges") {
+    return <ChallengesPage />;
+  }
+
+  if (path === "/challenge-details") {
+    return <ChallengeDetails />;
+  }
+
+  if (path === "/solutions") {
+    return <Solutions />;
+  }
+
+  if (path === "/collaborate") {
+    return <Collaborate />;
+  }
+
+  if (path === "/login") {
+    return <Login />;
+  }
+
+  if (path === "/submit-problem") {
+    return <SubmitProblem />;
+  }
+
+  if (path === "/submit-solution") {
+    return <SubmitSolution />;
+  }
+
+  if (path === "/solution-details") {
+    return <SolutionDetails />;
+  }
+
+  if (path === "/impact") {
+    return <Impact />;
+  }
+
+  if (path === "/about") {
+    return <About />;
+  }
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900">
 
-      {/* ================= NAVBAR ================= */}
-      <header className="absolute left-0 right-0 top-0 z-50 px-4 pt-4 md:px-8">
-
-        <nav className="mx-auto flex max-w-7xl items-center justify-between rounded-3xl border border-white/10 bg-[#061a3a]/95 px-5 py-4 shadow-2xl backdrop-blur-xl md:px-7">
-
-          {/* LOGO */}
-          <div className="flex items-center gap-3">
-
-            <div className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-green-400 bg-white text-2xl">
-              🌿
-            </div>
-
-            <div className="hidden sm:block">
-              <h1 className="text-lg font-extrabold tracking-wide text-white">
-                JHARKHAND
-              </h1>
-
-              <p className="text-[10px] font-semibold tracking-[0.18em] text-green-300">
-                INNOVATION PLATFORM
-              </p>
-            </div>
-
-          </div>
-
-
-          {/* NAVIGATION */}
-          <div className="hidden items-center gap-2 lg:flex">
-
-            <a
-              href="#home"
-              className="rounded-full bg-green-500/15 px-5 py-2.5 font-semibold text-green-300"
-            >
-              🏠 Home
-            </a>
-
-            <a
-              href="#challenges"
-              className="rounded-full px-5 py-2.5 font-medium text-white/80 transition hover:bg-white/10 hover:text-white"
-            >
-              ◈ Challenges
-            </a>
-
-            <a
-              href="#solutions"
-              className="rounded-full px-5 py-2.5 font-medium text-white/80 transition hover:bg-white/10 hover:text-white"
-            >
-              ◇ Solutions
-            </a>
-
-            <a
-              href="#collaborate"
-              className="rounded-full px-5 py-2.5 font-medium text-white/80 transition hover:bg-white/10 hover:text-white"
-            >
-              ♧ Collaborate
-            </a>
-
-            <a
-              href="#impact"
-              className="rounded-full px-5 py-2.5 font-medium text-white/80 transition hover:bg-white/10 hover:text-white"
-            >
-              ◉ Impact
-            </a>
-
-            <a
-              href="#about"
-              className="rounded-full px-5 py-2.5 font-medium text-white/80 transition hover:bg-white/10 hover:text-white"
-            >
-              About Us
-            </a>
-
-          </div>
-
-
-          {/* RIGHT BUTTONS */}
-          <div className="flex items-center gap-2">
-
-            <button className="hidden h-11 w-11 items-center justify-center rounded-full border border-green-500/50 text-xl text-white transition hover:bg-green-500/10 md:flex">
-              ⌕
-            </button>
-
-            <button className="rounded-xl border border-green-500/50 px-4 py-2.5 font-semibold text-white transition hover:bg-green-500/10">
-              Login
-            </button>
-
-            <button className="rounded-xl bg-green-500 px-4 py-2.5 font-bold text-white shadow-lg shadow-green-500/20 transition hover:bg-green-400">
-              <span className="hidden sm:inline">➤ Submit a Problem</span>
-              <span className="sm:hidden">➤</span>
-            </button>
-
-          </div>
-
-        </nav>
-
-      </header>
-
+      <Navbar />
 
       {/* ================= HERO ================= */}
       <main id="home">
 
-        <section className="relative min-h-[780px] overflow-hidden bg-[#03183b]">
+        <section className="relative min-h-[900px] overflow-visible bg-[#03183b] md:min-h-[780px]">
 
           {/* BACKGROUND GLOW */}
           <div className="absolute left-[-180px] top-[220px] h-[500px] w-[500px] rounded-full bg-blue-500/20 blur-3xl"></div>
@@ -119,7 +81,7 @@ function App() {
           ></div>
 
 
-          <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-6 pb-36 pt-48 md:grid-cols-2 md:px-10 lg:pt-52">
+          <div className="relative mx-auto grid max-w-7xl items-center gap-8 px-5 pb-24 pt-28 sm:px-6 sm:pt-32 md:grid-cols-2 md:gap-12 md:px-10 md:pb-36 md:pt-48 lg:pt-52">
 
 
             {/* ================= HERO LEFT ================= */}
@@ -161,21 +123,27 @@ function App() {
               {/* BUTTONS */}
               <div className="mt-9 flex flex-wrap gap-4">
 
-                <button className="group rounded-xl bg-green-500 px-6 py-4 font-bold text-white shadow-xl shadow-green-500/20 transition duration-300 hover:-translate-y-1 hover:bg-green-400">
-
+                {/* SUBMIT A PROBLEM */}
+                <button
+                  onClick={() => {
+                    window.location.href = "/submit-problem";
+                  }}
+                  className="group rounded-xl bg-green-500 px-6 py-4 font-bold text-white shadow-xl shadow-green-500/20 transition duration-300 hover:-translate-y-1 hover:bg-green-400"
+                >
                   📝 Submit a Problem
-
                   <span className="ml-3 transition group-hover:ml-5">
                     →
                   </span>
-
                 </button>
 
-
-                <button className="rounded-xl border border-green-400/60 bg-transparent px-6 py-4 font-bold text-white transition duration-300 hover:-translate-y-1 hover:bg-white/10">
-
+                {/* EXPLORE CHALLENGES */}
+                <button
+                  onClick={() => {
+                    window.location.href = "/challenges";
+                  }}
+                  className="rounded-xl border border-green-400/60 bg-transparent px-6 py-4 font-bold text-white transition duration-300 hover:-translate-y-1 hover:bg-white/10"
+                >
                   Explore Challenges →
-
                 </button>
 
               </div>
@@ -369,9 +337,10 @@ function App() {
 
 
           {/* ================= STATS ================= */}
-          <div className="absolute bottom-[-55px] left-1/2 z-20 w-[92%] max-w-7xl -translate-x-1/2">
+          {/* ================= STATS ================= */}
+          <div className="relative z-20 mx-auto mt-10 w-[92%] max-w-7xl md:absolute md:bottom-[-55px] md:left-1/2 md:mt-0 md:-translate-x-1/2">
 
-            <div className="grid overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl md:grid-cols-5">
+            <div className="grid overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl grid-cols-1 sm:grid-cols-2 md:grid-cols-5">
 
               <Stat
                 number="1,248"
@@ -411,12 +380,11 @@ function App() {
             </div>
 
           </div>
-
         </section>
 
 
         {/* ================= NEXT SECTION ================= */}
-        <section className="px-6 pb-24 pt-36">
+        <section className="px-6 pb-24 pt-44">
 
           <div className="mx-auto max-w-7xl text-center">
 
@@ -449,17 +417,17 @@ function App() {
 
 function Stat({ number, title, description, icon }) {
   return (
-    <div className="border-b border-slate-200 px-5 py-7 last:border-b-0 md:border-b-0 md:border-r md:last:border-r-0">
+    <div className="border-b border-slate-200 px-5 py-6 last:border-b-0 sm:px-6 md:border-b-0 md:border-r md:px-5 md:py-7 md:last:border-r-0">
 
-      <div className="flex items-start gap-4">
+      <div className="flex items-center gap-4 md:items-start">
 
-        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-green-50 text-xl text-green-600">
+        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-green-50 text-xl text-green-600">
           {icon}
         </div>
 
-        <div>
+        <div className="min-w-0">
 
-          <p className="text-3xl font-black text-[#06275a]">
+          <p className="text-2xl font-black text-[#06275a] md:text-3xl">
             {number}
           </p>
 

@@ -1,230 +1,272 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import Navbar from "../components/Navbar";
 
-const challenges = [
-  {
-    id: 1,
-    category: "AI & ML",
-    icon: "🤖",
-    title: "AI-Based Smart Diagnosis",
-    description:
-      "Develop an intelligent system that can assist users with early detection and analysis.",
-    difficulty: "Medium",
-    status: "Open",
-  },
-  {
-    id: 2,
-    category: "Healthcare",
-    icon: "🏥",
-    title: "Digital Health Monitoring",
-    description:
-      "Create a technology solution for continuous health monitoring and alerts.",
-    difficulty: "Hard",
-    status: "Open",
-  },
-  {
-    id: 3,
-    category: "Education",
-    icon: "🎓",
-    title: "Personalized Learning Platform",
-    description:
-      "Build a platform that provides personalized learning experiences for students.",
-    difficulty: "Medium",
-    status: "Open",
-  },
-  {
-    id: 4,
-    category: "Smart City",
-    icon: "🚦",
-    title: "Intelligent Traffic Management",
-    description:
-      "Use AI and data to improve traffic flow and reduce congestion in cities.",
-    difficulty: "Hard",
-    status: "Open",
-  },
-  {
-    id: 5,
-    category: "Governance",
-    icon: "🏛️",
-    title: "Citizen Service Portal",
-    description:
-      "Develop a unified digital platform that makes public services easier to access.",
-    difficulty: "Medium",
-    status: "Open",
-  },
-  {
-    id: 6,
-    category: "Environment",
-    icon: "🌱",
-    title: "Smart Waste Management",
-    description:
-      "Create a smart solution to monitor, collect and manage waste efficiently.",
-    difficulty: "Easy",
-    status: "Open",
-  },
-];
-
+console.log("🔥 NEW CHALLENGES FILE IS RUNNING");
+6
 function ChallengesPage() {
-  const handleViewDetails = (challenge) => {
-    alert(
-      `${challenge.title}\n\n` +
-        `${challenge.description}\n\n` +
-        `Category: ${challenge.category}\n` +
-        `Difficulty: ${challenge.difficulty}\n` +
-        `Status: ${challenge.status}`
-    );
+  const [problems, setProblems] = useState([]);
+  const [input, setInput] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // LOAD PROBLEMS
+  useEffect(() => {
+    const data = localStorage.getItem("submittedProblems");
+
+    if (data) {
+      try {
+        const parsedData = JSON.parse(data);
+
+        if (Array.isArray(parsedData)) {
+          setProblems(parsedData);
+        }
+      } catch (error) {
+        console.error("Error reading submittedProblems:", error);
+        setProblems([]);
+      }
+    }
+  }, []);
+
+  // SEARCH BUTTON
+  const handleSearch = () => {
+    setSearchTerm(input.trim());
   };
 
+  // ENTER KEY
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
+
+  // CLEAR SEARCH
+  const clearSearch = () => {
+    setInput("");
+    setSearchTerm("");
+  };
+
+  // FILTER
+  const filteredProblems = problems.filter((problem) => {
+    if (searchTerm === "") {
+      return true;
+    }
+
+    const search = searchTerm.toLowerCase();
+
+    const title = String(problem.title || "").toLowerCase();
+    const category = String(problem.category || "").toLowerCase();
+    const location = String(problem.location || "").toLowerCase();
+    const description = String(problem.description || "").toLowerCase();
+
+    return (
+      title.includes(search) ||
+      category.includes(search) ||
+      location.includes(search) ||
+      description.includes(search)
+    );
+  });
+
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900">
-      
-      {/* NAVBAR */}
-      <nav className="border-b bg-white">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-          
-          {/* Logo */}
-          <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-600 font-bold text-white">
-              SIH
-            </div>
+    <div className="min-h-screen bg-[#020b2d] text-white">
 
-            <div>
-              <h1 className="text-lg font-bold">
-                Smart India Hackathon
-              </h1>
+      <Navbar />
 
-              <p className="text-xs text-slate-500">
-                Innovation • Technology • India
-              </p>
-            </div>
-          </div>
+      <section className="mx-auto max-w-7xl px-6 py-16">
 
-          {/* Navigation */}
-          <div className="hidden items-center gap-8 md:flex">
-            <a
-              href="#"
-              className="font-medium hover:text-blue-600"
-            >
-              Home
-            </a>
+        {/* HEADER */}
+        <div className="mb-10 text-center">
 
-            <a
-              href="#"
-              className="font-medium hover:text-blue-600"
-            >
-              About
-            </a>
-
-            <a
-              href="#"
-              className="font-medium text-blue-600"
-            >
-              Challenges
-            </a>
-
-            <a
-              href="#"
-              className="font-medium hover:text-blue-600"
-            >
-              Contact
-            </a>
-
-            <button className="rounded-lg bg-blue-600 px-5 py-2.5 font-medium text-white hover:bg-blue-700">
-              Login
-            </button>
-          </div>
-        </div>
-      </nav>
-
-      {/* PAGE HEADER */}
-      <section className="bg-gradient-to-r from-blue-700 to-cyan-500 px-6 py-16 text-white">
-        <div className="mx-auto max-w-7xl">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-cyan-100">
-            Smart India Hackathon 2026
-          </p>
-
-          <h2 className="text-4xl font-bold md:text-5xl">
+          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-emerald-400">
             Explore Challenges
-          </h2>
-
-          <p className="mt-4 max-w-2xl text-lg text-blue-50">
-            Discover real-world problems and build innovative technology
-            solutions that can help transform India.
           </p>
-        </div>
-      </section>
 
-      {/* CHALLENGES */}
-      <main className="mx-auto max-w-7xl px-6 py-12">
-        
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold">
-            Available Challenges
-          </h2>
+          <h1 className="text-4xl font-bold md:text-5xl">
+            Community Challenges
+          </h1>
 
-          <p className="mt-2 text-slate-500">
-            Choose a challenge and start building your solution.
+          <p className="mx-auto mt-4 max-w-2xl text-white/60">
+            Discover real-world problems submitted by communities across
+            Jharkhand and help build meaningful solutions.
           </p>
+
         </div>
+
+
+        {/* SEARCH */}
+        <div className="mx-auto mb-10 max-w-2xl">
+
+          <div className="flex overflow-hidden rounded-2xl border border-white/10 bg-white/10">
+
+            <input
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder="Search Ranchi, Healthcare, Environment..."
+              className="flex-1 bg-transparent px-5 py-4 text-white outline-none placeholder:text-white/40"
+            />
+
+            <button
+              type="button"
+              onClick={handleSearch}
+              className="bg-emerald-500 px-7 font-bold text-white hover:bg-emerald-400"
+            >
+              🔍 Search
+            </button>
+
+          </div>
+
+        </div>
+
+
+        {/* SEARCH STATUS */}
+        {searchTerm !== "" && (
+          <div className="mb-8 flex items-center justify-between">
+
+            <p className="text-sm text-white/60">
+              Showing results for{" "}
+              <span className="font-bold text-emerald-400">
+                "{searchTerm}"
+              </span>
+            </p>
+
+            <button
+              type="button"
+              onClick={clearSearch}
+              className="rounded-lg border border-white/10 px-4 py-2 text-sm text-white/70 hover:bg-white/10"
+            >
+              Clear
+            </button>
+
+          </div>
+        )}
+
+
+        {/* NO DATA */}
+        {problems.length === 0 && (
+
+          <div className="rounded-3xl border border-white/10 bg-white/5 p-10 text-center">
+
+            <div className="mb-4 text-5xl">
+              💡
+            </div>
+
+            <h2 className="text-2xl font-bold">
+              No challenges submitted yet
+            </h2>
+
+            <p className="mt-2 text-white/50">
+              Be the first to submit a real-world problem.
+            </p>
+
+          </div>
+
+        )}
+
+
+        {/* NO SEARCH RESULT */}
+        {problems.length > 0 && filteredProblems.length === 0 && (
+
+          <div className="rounded-3xl border border-white/10 bg-white/5 p-10 text-center">
+
+            <div className="mb-4 text-5xl">
+              🔎
+            </div>
+
+            <h2 className="text-2xl font-bold">
+              No matching challenges found
+            </h2>
+
+            <p className="mt-2 text-white/50">
+              No challenge matches "{searchTerm}".
+            </p>
+
+            <button
+              type="button"
+              onClick={clearSearch}
+              className="mt-6 rounded-xl bg-emerald-500 px-6 py-3 font-bold hover:bg-emerald-400"
+            >
+              Show All Challenges
+            </button>
+
+          </div>
+
+        )}
+
 
         {/* CARDS */}
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {challenges.map((challenge) => (
-            <div
-              key={challenge.id}
-              className="flex flex-col rounded-2xl border bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
-            >
-              
-              {/* Card top */}
-              <div className="mb-5 flex items-start justify-between">
-                
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-50 text-2xl">
-                  {challenge.icon}
+        {filteredProblems.length > 0 && (
+
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+
+            {filteredProblems.map((problem, index) => (
+
+              <div
+                key={problem.id || index}
+                className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-xl transition hover:-translate-y-1 hover:border-emerald-400/40"
+              >
+
+                {/* CATEGORY */}
+                <div className="mb-4 flex items-center justify-between">
+
+                  <span className="rounded-full bg-emerald-500/15 px-3 py-1 text-xs font-semibold text-emerald-400">
+                    {problem.category || "General"}
+                  </span>
+
+                  <span className="text-xs text-white/40">
+                    Community
+                  </span>
+
                 </div>
 
-                <span className="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">
-                  {challenge.status}
-                </span>
-              </div>
 
-              {/* Category */}
-              <p className="text-sm font-semibold text-blue-600">
-                {challenge.category}
-              </p>
+                {/* TITLE */}
+                <h2 className="text-xl font-bold">
+                  {problem.title || "Untitled Challenge"}
+                </h2>
 
-              {/* Title */}
-              <h3 className="mt-2 text-xl font-bold">
-                {challenge.title}
-              </h3>
 
-              {/* Description */}
-              <p className="mt-3 flex-grow leading-7 text-slate-600">
-                {challenge.description}
-              </p>
-
-              {/* Difficulty */}
-              <div className="mt-6 border-t pt-5">
-                <p className="text-sm text-slate-500">
-                  Difficulty
+                {/* DESCRIPTION */}
+                <p className="mt-3 line-clamp-4 text-sm leading-6 text-white/60">
+                  {problem.description || "No description available."}
                 </p>
 
-                <p className="font-semibold">
-                  {challenge.difficulty}
-                </p>
+
+                {/* LOCATION */}
+                <div className="mt-5 flex items-center gap-2 text-sm text-white/50">
+                  📍 {problem.location || "Jharkhand"}
+                </div>
+
+
+                {/* VIEW CHALLENGE */}
+                <button
+                  type="button"
+                  onClick={() => {
+
+                    localStorage.setItem(
+                      "selectedChallenge",
+                      JSON.stringify(problem)
+                    );
+
+                    window.location.href = "/challenge-details";
+
+                  }}
+                  className="mt-6 w-full rounded-xl border border-emerald-500/40 px-4 py-3 font-semibold text-emerald-400 transition hover:bg-emerald-500/10"
+                >
+                  View Challenge →
+                </button>
+
               </div>
 
-              {/* View Details Button */}
-              <button
-                onClick={() => handleViewDetails(challenge)}
-                className="mt-5 w-full rounded-lg bg-blue-600 px-5 py-3 font-semibold text-white transition hover:bg-blue-700"
-              >
-                View Details →
-              </button>
-            </div>
-          ))}
-        </div>
-      </main>
+            ))}
 
-      {/* FOOTER */}
-      <footer className="mt-10 border-t bg-white">
-        <div className="mx-auto max-w-7xl px-6 py-8 text-center">
-          <p className="font
+          </div>
+
+        )}
+
+      </section>
+
+    </div>
+  );
+}
+
+export default ChallengesPage;
