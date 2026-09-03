@@ -398,7 +398,7 @@ function App() {
 
             <p className="mx-auto mt-4 max-w-2xl text-slate-500">
               Real problems. Real people. Real impact.
-            </p>
+            </p> 
 
             <div className="mx-auto mt-5 h-1 w-12 rounded-full bg-green-500"></div>
 
